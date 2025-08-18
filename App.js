@@ -1,11 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from "react";
+import { View, Button, StyleSheet } from "react-native";
+import Counter from "./src/components/Counter";
 
 export default function App() {
+  const [isVisible, setIsVisible] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      {isVisible && <Counter />} 
+      <Button
+        title={isVisible ? "Counter'ı Gizle" : "Counter'ı Göster"}
+        onPress={() => setIsVisible(!isVisible)}
+      />
     </View>
   );
 }
@@ -13,8 +19,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
