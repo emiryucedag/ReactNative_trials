@@ -1,25 +1,69 @@
-import React, { useState } from "react";
-import { View, Button, StyleSheet } from "react-native";
-import Counter from "./src/components/Counter";
 
-export default function App() {
-  const [isVisible, setIsVisible] = useState(false);
+import { Button } from 'react-native';
+import { createStaticNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons'; 
 
+import HomeScreen from './src/screens/home';
+import UsersScreen from './src/screens/users';
+import UserDetail from './src/screens/UserDetail';
+import HeaderLogo from './src/components/HeaderLogo';
+
+const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
   return (
-    <View style={styles.container}>
-      {isVisible && <Counter />} 
-      <Button
-        title={isVisible ? "Counter'ı Gizle" : "Counter'ı Göster"}
-        onPress={() => setIsVisible(!isVisible)}
-      />
-    </View>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Users') {
+            iconName = focused ? 'people' : 'people-outline';
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#f4511e',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Users" component={UsersScreen} options={{tabBarBadge: 3}}/>
+    </Tab.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+const RootStack = createNativeStackNavigator({
+  screenOptions: {
+    headerStyle: { backgroundColor: '#f4511e' },
+    headerTintColor: '#fff',
+    headerTitleStyle: { fontWeight: 'bold' },
   },
+  screens: {
+    Tabs: {
+      screen: HomeTabs,
+      options: {
+        title: 'Ana Sayfa',
+        headerShown: true,
+        headerRight: () => (
+          <Button onPress={() => alert('This is a button!')} title="INFO" color={"white"}/>
+        ),
+        headerTitle: (props) => <HeaderLogo {...props} />,
+      },
+    },
+    UserDetail: {
+      screen: UserDetail,
+    },
+  },
+  initialRouteName: 'Tabs',
 });
+
+const Navigation = createStaticNavigation(RootStack);
+
+export default function App() {
+  return <Navigation />;
+}

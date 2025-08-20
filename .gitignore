@@ -35,3 +35,26 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+# OS
+.DS_Store
+
+# Build outputs
+dist/
+build/
+web-build/
+
+# React Native
+ios/
+android/
+Pods/
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata
