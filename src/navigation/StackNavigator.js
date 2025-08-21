@@ -22,7 +22,7 @@ export default function StackNavigatorRoot({ initialTab = 'HomeTab' }) {
       <Stack.Screen
         name="MainTabs"
         options={{
-          title: 'Ana Sayfa',
+          title: 'Back',
           headerRight: () => (
             <Button onPress={() => alert('This is a button!')} title="INFO" color="white" />
           ),
