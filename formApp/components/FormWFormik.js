@@ -1,10 +1,10 @@
 import { View, Text,TextInput,StyleSheet, Button } from 'react-native';
-import { Formik, useFormik } from 'formik';
-
+import {  useFormik } from 'formik';
+import validationSchema  from './validations';
 
 const FormWFormik = () => {
 
-    const {values,handleChange,handleSubmit} = useFormik({
+    const {values, errors, touched, handleChange, handleSubmit, handleBlur} = useFormik({
         initialValues:{
             username: "",
             password:"",
@@ -12,20 +12,22 @@ const FormWFormik = () => {
             email:"" 
         },
         onSubmit: (values) => {
-                console.log(values)}
+                console.log(values)},
+        validationSchema
         
     });
 
   return (
     <View style={styles.container}>
-        
                     <View style={styles.item}> 
                         <TextInput 
                         style={styles.input}
                         value={values.username}
                         placeholder='userName'
                         onChangeText={handleChange("username")}
+                        onBlur={handleBlur("username")}
                         />
+                        {errors.username && touched.username &&<Text style={styles.error}>{errors.username}</Text>}
                     </View>
                     <View style={styles.item}> 
                         <TextInput 
@@ -35,7 +37,10 @@ const FormWFormik = () => {
                         value={values.email}
                         placeholder='e-mail'
                         onChangeText={handleChange("email")}
+                        onBlur={handleBlur("email")}
                         />
+                        {errors.email && touched.email && <Text style={styles.error}>{errors.email}</Text>}
+                        
                     </View>
                     <View style={styles.item}> 
                         <TextInput 
@@ -44,16 +49,22 @@ const FormWFormik = () => {
                         secureTextEntry
                         placeholder='password'
                         onChangeText={handleChange("password")}
+                        onBlur={handleBlur("password")}
                         />
+                        {errors.password && touched.password && <Text style={styles.error}>{errors.password}</Text>}
+                        
                     </View>  
                     <View style={styles.item}> 
                         <TextInput  
                         style={styles.input}
                         value={values.passwordConfirm}
                         secureTextEntry
-                        placeholder='password confirm'
+                        placeholder='confirm password'
                         onChangeText={handleChange("passwordConfirm")}
+                        onBlur={handleBlur("passwordConfirm")}
                         />
+                        {errors.passwordConfirm && touched.passwordConfirm && <Text style={styles.error} >Passwords are not matching!</Text>}
+
                     </View>
                     
                     <View style={styles.item}>
@@ -79,6 +90,9 @@ const styles = StyleSheet.create({
   },
   item:{
     marginBottom:4,
+  },
+  error:{
+    color:"red",
   }
 })
 
