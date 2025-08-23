@@ -4,23 +4,44 @@ import React, { useState } from 'react';
 
 const Form = () => {
 
-    const [username,setUsername]=useState();
-    const [password,setPassword]=useState();
-    const [passwordConfirm,setPasswordConfirm]=useState();
-    const [email,setEmail]=useState();
+    const [form, setForm] = useState({
+        username: "",
+        password: "",
+        passwordConfirm: "",
+        email: ""
+    });
+
+    const handleChange = (text, input) =>{
+         setForm((prev) => ({...prev, [input]: text}) );
+    };
     
     const handleSubmit= () => {
-        console.log({username, email, password});
+
+        if(form.username=="")
+            return false;
+        if(form.password=="")
+            return false;
+        if(form.passwordConfirm=="" || form.password!=form.passwordConfirm)
+            return false;
+        if(form.email=="")
+            return false;
+
+        console.log({form});
     };
 
   return (
     <View style={styles.container}>
+        <Text>
+            {
+                JSON.stringify(form,null,2)
+            }
+        </Text>
         <View style={styles.item}> 
             <TextInput 
             style={styles.input}
-            value={username}
+            value={form.username}
             placeholder='userName'
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={(text) => handleChange(text,"username")}
             />
         </View>
         <View style={styles.item}> 
@@ -28,27 +49,27 @@ const Form = () => {
             style={styles.input}
             keyboardType='email-address'
             autoCapitalize='none'
-            value={email}
+            value={form.email}
             placeholder='e-mail'
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => handleChange(text,"email")}
             />
         </View>
         <View style={styles.item}> 
             <TextInput 
             style={styles.input}
-            value={password}
+            value={form.password}
             secureTextEntry
             placeholder='password'
-            onChangeText={(text) => setPassword(text)}
+            onChangeText={(text) => handleChange(text,"password")}
             />
         </View>
         <View style={styles.item}> 
             <TextInput 
             style={styles.input}
-            value={passwordConfirm}
+            value={form.passwordConfirm}
             secureTextEntry
             placeholder='password confirm'
-            onChangeText={(text) => setPasswordConfirm(text)}
+            onChangeText={(text) => handleChange(text,"passwordConfirm")}
             />
         </View>
         
